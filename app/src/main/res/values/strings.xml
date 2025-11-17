@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AnimeHub</string>
+    <string name="splash_title">AnimeHub</string>
+    <string name="splash_subtitle">Tu comunidad otaku</string>
+    <string name="contact_email">Contactar al Equipo</string>
+    <string name="api_documentation">Ver Documentación de Jikan API</string>
+</resources>
