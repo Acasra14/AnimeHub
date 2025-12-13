@@ -4,4 +4,38 @@
     <string name="splash_subtitle">Tu comunidad otaku</string>
     <string name="contact_email">Contactar al Equipo</string>
     <string name="api_documentation">Ver Documentación de Jikan API</string>
+
+    <string name="nav_list">Lista de Animes</string>
+    <string name="nav_favs">Favoritos</string>
+    <string name="nav_profile">Perfil</string>
+    <string name="nav_about">Acerca de</string>
+    <string name="details_title">Detalles del Anime</string>
+    <string name="back">Volver</string>
+
+    <string name="search_hint">Buscar anime...</string>
+    <string name="default_content_descrip">Imagen del elemento</string>
+    <string name="element_image_desc">Imagen de %1$s</string>
+    <string name="element_rank">Rank: %1$d</string>
+    <string name="element_score">Score: %1$.2f</string>
+    <string name="element_not_found">Elemento no encontrado</string>
+
+    <string name="login_button">Iniciar Sesión</string>
+    <string name="logout_button">Cerrar Sesión</string>
+    <string name="profile_status_logged_in">¡Bienvenido, Otaku!</string>
+    <string name="profile_status_logged_out">Por favor, inicia sesión</string>
+
+    <string name="fav_list_empty">No tienes animes favoritos aún.</string>
+    <string name="delete_element">Eliminar de Favoritos</string>
+    <string name="delete_element_confirmation">¿Estás seguro de que deseas eliminar %1$s de tus favoritos?</string>
+    <string name="delete_confirm">Eliminar</string>
+    <string name="cancel">Cancelar</string>
+
+    <string name="delete_desc">Eliminar de la lista</string>
+    <string name="favorite_toggle_desc">Añadir o eliminar de favoritos</string>
+    <string name="more_content_desc">Ver detalles</string>
+
+    <string name="fav_details_title">Detalles de Favorito: %1$s</string>
+    <string name="user_comments_label">Tus Comentarios</string>
+    <string name="comment_hint">Escribe aquí tus notas o comentarios...</string>
+    <string name="save_comment">Guardar Comentario</string>
 </resources>

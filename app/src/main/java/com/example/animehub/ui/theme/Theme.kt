@@ -17,21 +17,30 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFF7986CB),
-    secondary = Color(0xFF9FA8DA),
-    tertiary = Color(0xFFC5CAE9)
+    primary = Purple80,
+    secondary = PurpleGrey80,
+    tertiary = Pink80,
+    surface = Color(0xFF1A237E).copy(alpha = 0.8f),
+    onPrimary = Color.Black,
+    onSecondary = Color.White,
+    onTertiary = Color.White
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Color(0xFF1A237E),
-    secondary = Color(0xFF303F9F),
-    tertiary = Color(0xFF3F51B5)
+    primary = Purple40,
+    secondary = PurpleGrey40,
+    tertiary = Pink40,
+    background = Color.White,
+    surface = Color.White,
+    onPrimary = Color.White,
+    onSecondary = Color.Black,
+    onTertiary = Color.Black
 )
 
 @Composable
 fun AnimeHubTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -42,12 +51,16 @@ fun AnimeHubTheme(
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
+
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
+
             window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            window.navigationBarColor = colorScheme.surface.toArgb()
+
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 
