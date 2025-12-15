@@ -3,78 +3,68 @@ package com.example.animehub.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.animehub.R
-import com.example.animehub.model.AnimeElement
+import com.example.animehub.data.Datasource
 import com.example.animehub.navigation.NavDestinations
-import com.example.animehub.ui.components.ElementCard
-import com.example.animehub.ui.components.ElementCardLand
-import com.example.animehub.ui.components.StandardInputTextComp
+import com.example.animehub.ui.components.ElemCardCompact
+import com.example.animehub.ui.components.ElemCardMedExp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ElementListScreen(
-    elements: List<AnimeElement>,
+fun ElemListScreen(
     navController: NavController,
     isCompact: Boolean,
-    onFavoriteToggle: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var searchText by remember { mutableStateOf("") }
-
-    val filteredElements = remember(elements, searchText) {
-        elements.filter { element ->
-            element.name.contains(searchText, ignoreCase = true) ||
-                    element.description.contains(searchText, ignoreCase = true)
-        }
-    }
+    val elements = remember { Datasource.getAnimeElements() }
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text(stringResource(R.string.nav_list)) })
+            TopAppBar(
+                title = { Text(stringResource(R.string.nav_list)) },
+                actions = {
+                    IconButton(
+                        onClick = { navController.navigate(NavDestinations.FAV_LIST) },
+                        content = {
+                            Icon(
+                                imageVector = Icons.Filled.Favorite,
+                                contentDescription = stringResource(R.string.nav_favs)
+                            )
+                        }
+                    )
+                }
+            )
         }
     ) { paddingValues ->
-        Column(
+        LazyColumn(
             modifier = modifier
                 .fillMaxSize()
                 .padding(paddingValues)
+                .padding(horizontal = 4.dp)
         ) {
-            StandardInputTextComp(
-                label = stringResource(R.string.search_hint),
-                value = searchText,
-                onValueChange = { searchText = it },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-            )
+            items(elements, key = { it.name }) { element ->
+                val onDetailsClick = {
+                    navController.navigate(NavDestinations.createElementDetailsRoute(element.name))
+                }
 
-            LazyColumn(modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)) {
-                items(filteredElements, key = { it.name }) { element ->
-                    val onDetailsClick = {
-                        navController.navigate(NavDestinations.createElementDetailsRoute(element.name))
-                    }
-
-                    if (isCompact) {
-                        ElementCard(
-                            element = element,
-                            onDetailsClick = onDetailsClick,
-                            onFavoriteToggle = { onFavoriteToggle(element.name) }
-                        )
-                    } else {
-                        ElementCardLand(
-                            element = element,
-                            onDetailsClick = onDetailsClick,
-                            onFavoriteToggle = { onFavoriteToggle(element.name) }
-                        )
-                    }
+                if (isCompact) {
+                    ElemCardCompact(
+                        element = element,
+                        onDetailsClick = onDetailsClick
+                    )
+                } else {
+                    ElemCardMedExp(
+                        element = element,
+                        onDetailsClick = onDetailsClick
+                    )
                 }
             }
         }

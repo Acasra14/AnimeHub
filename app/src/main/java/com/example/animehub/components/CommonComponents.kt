@@ -1,18 +1,14 @@
 package com.example.animehub.ui.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -20,24 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.example.animehub.R
-
-
-@Composable
-fun StandardInputTextComp(
-    label: String,
-    value: String,
-    modifier: Modifier = Modifier,
-    onValueChange: (String) -> Unit = {},
-    singleLine: Boolean = true
-) {
-    OutlinedTextField(
-        modifier = modifier,
-        singleLine = singleLine,
-        value = value,
-        onValueChange = { onValueChange(it) },
-        label = { Text(text = label) }
-    )
-}
+import com.example.animehub.ui.theme.CustomAction
 
 @Composable
 fun ImageComp(
@@ -54,37 +33,29 @@ fun ImageComp(
         else
             contentDesc
 
-    if(height != 0 && width != 0) {
-        Image(
-            painter = painterResource(id = drawable),
-            contentDescription = contentDescription,
-            modifier
-                .height(height.dp)
-                .width(width.dp),
-            contentScale = contentScale
-        )
-    } else {
-        Image(
-            modifier = modifier,
-            painter = painterResource(id = drawable),
-            contentDescription = contentDescription,
-            contentScale = contentScale
-        )
-    }
+    Image(
+        painter = painterResource(id = drawable),
+        contentDescription = contentDescription,
+        modifier = modifier
+            .height(height.dp)
+            .width(width.dp),
+        contentScale = contentScale
+    )
 }
 
 @Composable
 fun StandardButtonComp(
     label: String,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true,
     onClick: () -> Unit = {}
 ) {
     Button(
-        modifier = modifier
-            .padding(8.dp),
+        modifier = modifier.padding(8.dp),
         onClick = onClick,
-        enabled = enabled
+        colors = ButtonDefaults.buttonColors(
+            containerColor = CustomAction,
+            contentColor = MaterialTheme.colorScheme.onPrimary
+        )
     ) {
         Text(text = label)
     }
@@ -101,28 +72,4 @@ fun StandardTextComp(
         text = text,
         style = style
     )
-}
-
-@Composable
-fun MedHeaderComp(title: String) {
-    Surface(
-        modifier = Modifier
-            .padding(horizontal = 8.dp)
-            .fillMaxWidth(),
-        shadowElevation = 2.dp,
-        shape = MaterialTheme.shapes.medium,
-        color = MaterialTheme.colorScheme.primaryContainer,
-        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-    ) {
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                modifier = Modifier.padding(8.dp),
-                text = title,
-                style = MaterialTheme.typography.headlineMedium
-            )
-        }
-    }
 }

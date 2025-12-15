@@ -12,7 +12,6 @@
     <string name="details_title">Detalles del Anime</string>
     <string name="back">Volver</string>
 
-    <string name="search_hint">Buscar anime...</string>
     <string name="default_content_descrip">Imagen del elemento</string>
     <string name="element_image_desc">Imagen de %1$s</string>
     <string name="element_rank">Rank: %1$d</string>
@@ -25,14 +24,12 @@
     <string name="profile_status_logged_out">Por favor, inicia sesión</string>
 
     <string name="fav_list_empty">No tienes animes favoritos aún.</string>
-    <string name="delete_element">Eliminar de Favoritos</string>
-    <string name="delete_element_confirmation">¿Estás seguro de que deseas eliminar %1$s de tus favoritos?</string>
-    <string name="delete_confirm">Eliminar</string>
-    <string name="cancel">Cancelar</string>
-
-    <string name="delete_desc">Eliminar de la lista</string>
     <string name="favorite_toggle_desc">Añadir o eliminar de favoritos</string>
     <string name="more_content_desc">Ver detalles</string>
+
+    <string name="add_to_favs">Añadir a Favoritos</string>
+    <string name="remove_from_favs">Quitar de Favoritos</string>
+    <string name="delete_desc">Eliminar de la lista</string>
 
     <string name="fav_details_title">Detalles de Favorito: %1$s</string>
     <string name="user_comments_label">Tus Comentarios</string>

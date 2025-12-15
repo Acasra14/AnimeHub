@@ -1,4 +1,3 @@
-// Archivo: com/example/animehub/ui/screens/ProfileScreen.kt
 package com.example.animehub.ui.screens
 
 import androidx.compose.foundation.layout.*
@@ -9,18 +8,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.animehub.R
+import com.example.animehub.ui.components.StandardButtonComp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen(modifier: Modifier = Modifier) {
-    // Controlar el estado de login/logout (Requisito)
+fun ProfileScreen() {
     var isLoggedIn by remember { mutableStateOf(false) }
 
-    Scaffold(
-        topBar = { TopAppBar(title = { Text(stringResource(R.string.nav_profile)) }) }
-    ) { paddingValues ->
+    Scaffold(topBar = { TopAppBar(title = { Text(stringResource(R.string.nav_profile)) }) }) { paddingValues ->
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(16.dp),
@@ -32,12 +29,10 @@ fun ProfileScreen(modifier: Modifier = Modifier) {
                 style = MaterialTheme.typography.headlineLarge
             )
             Spacer(modifier = Modifier.height(24.dp))
-            // El botón debe cambiar el texto al pulsarlo (Requisito)
-            Button(onClick = {
-                isLoggedIn = !isLoggedIn
-            }) {
-                Text(if (isLoggedIn) stringResource(R.string.logout_button) else stringResource(R.string.login_button))
-            }
+            StandardButtonComp(
+                label = if (isLoggedIn) stringResource(R.string.logout_button) else stringResource(R.string.login_button),
+                onClick = { isLoggedIn = !isLoggedIn }
+            )
         }
     }
 }

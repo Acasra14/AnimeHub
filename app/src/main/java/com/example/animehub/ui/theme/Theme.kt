@@ -20,10 +20,12 @@ private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
     tertiary = Pink80,
-    surface = Color(0xFF1A237E).copy(alpha = 0.8f),
+    background = CustomBackground,
+    surface = CustomBackground,
     onPrimary = Color.Black,
     onSecondary = Color.White,
-    onTertiary = Color.White
+    onBackground = Color.White,
+    onSurface = Color.White
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -34,7 +36,8 @@ private val LightColorScheme = lightColorScheme(
     surface = Color.White,
     onPrimary = Color.White,
     onSecondary = Color.Black,
-    onTertiary = Color.Black
+    onBackground = Color.Black,
+    onSurface = Color.Black
 )
 
 @Composable
@@ -56,10 +59,8 @@ fun AnimeHubTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-
             window.statusBarColor = colorScheme.primary.toArgb()
             window.navigationBarColor = colorScheme.surface.toArgb()
-
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }

@@ -51,16 +51,12 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.runtime)
 
-    // Navegación y Adaptabilidad
     implementation(libs.androidx.compose.material3.window.size.class1)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
-
-    // Gestión del Estado (ViewModel y LiveData)
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.compose.runtime:runtime-livedata")
 
-    // ICONOS DE MATERIAL EXTENDIDOS (Soluciona Filled, AutoMirrored, Icons)
     implementation("androidx.compose.material:material-icons-core")
     implementation("androidx.compose.material:material-icons-extended")
 
