@@ -6,33 +6,26 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.example.animehub.R
 import com.example.animehub.ui.components.StandardButtonComp
+import com.example.animehub.viewmodel.AnimeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen() {
-    var isLoggedIn by remember { mutableStateOf(false) }
-
-    Scaffold(topBar = { TopAppBar(title = { Text(stringResource(R.string.nav_profile)) }) }) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = if (isLoggedIn) stringResource(R.string.profile_status_logged_in) else stringResource(R.string.profile_status_logged_out),
-                style = MaterialTheme.typography.headlineLarge
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-            StandardButtonComp(
-                label = if (isLoggedIn) stringResource(R.string.logout_button) else stringResource(R.string.login_button),
-                onClick = { isLoggedIn = !isLoggedIn }
-            )
-        }
+fun ProfileScreen(viewModel: AnimeViewModel) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = if (viewModel.isLoggedIn) stringResource(R.string.profile_status_logged_in)
+            else stringResource(R.string.profile_status_logged_out)
+        )
+        StandardButtonComp(
+            label = if (viewModel.isLoggedIn) stringResource(R.string.logout_button)
+            else stringResource(R.string.login_button),
+            onClick = { viewModel.isLoggedIn = !viewModel.isLoggedIn }
+        )
     }
 }

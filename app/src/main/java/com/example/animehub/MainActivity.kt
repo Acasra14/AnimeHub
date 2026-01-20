@@ -3,19 +3,17 @@ package com.example.animehub
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.example.animehub.navigation.NavDestinations
-import com.example.animehub.navigation.NavigationType
-import com.example.animehub.navigation.getNavigationType
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.*
+import com.example.animehub.navigation.*
 import com.example.animehub.ui.screens.*
 import com.example.animehub.ui.theme.AnimeHubTheme
+import com.example.animehub.ui.components.*
+import com.example.animehub.viewmodel.AnimeViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,47 +21,78 @@ class MainActivity : ComponentActivity() {
         setContent {
             AnimeHubTheme {
                 val navType = getNavigationType(this)
-                AnimeHubApp(navType)
+                val viewModel: AnimeViewModel = viewModel()
+                AnimeHubApp(navType, viewModel)
             }
         }
     }
 }
 
 @Composable
-fun AnimeHubApp(navType: NavigationType) {
+fun AnimeHubApp(navType: NavigationType, viewModel: AnimeViewModel) {
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
     val isCompact = navType == NavigationType.BOTTOM_BAR
 
-    Scaffold(modifier = Modifier.fillMaxSize()) { paddingValues ->
+    val appContent: @Composable (PaddingValues) -> Unit = { padding ->
         NavHost(
             navController = navController,
             startDestination = NavDestinations.ELEMENT_LIST,
-            modifier = Modifier.padding(paddingValues)
+            modifier = Modifier.padding(padding)
         ) {
             composable(NavDestinations.ELEMENT_LIST) {
-                ElemListScreen(navController = navController, isCompact = isCompact)
+                ElemListScreen(navController, isCompact, viewModel)
             }
 
             composable(NavDestinations.ELEMENT_DETAILS) { backStackEntry ->
-                val name = backStackEntry.arguments?.getString(NavDestinations.ELEMENT_NAME_ARG) ?: "Error"
-                ElementDetailsScreen(name = name, navController = navController, isCompact = isCompact)
+                val name = backStackEntry.arguments?.getString(NavDestinations.ELEMENT_NAME_ARG) ?: ""
+                ElementDetailsScreen(
+                    name = name,
+                    navController = navController,
+                    isCompact = isCompact,
+                    viewModel = viewModel
+                )
             }
 
-            // FavListScreen
             composable(NavDestinations.FAV_LIST) {
-                FavListScreen(navController = navController)
+                FavListScreen(navController, isCompact, viewModel)
             }
 
-            composable(NavDestinations.FAV_DETAILS) {
-                FavDetailsScreen(navController = navController)
+            composable(NavDestinations.FAV_DETAILS) { backStackEntry ->
+                val name = backStackEntry.arguments?.getString(NavDestinations.ELEMENT_NAME_ARG) ?: ""
+                FavDetailsScreen(name = name, navController = navController)
             }
 
             composable(NavDestinations.PROFILE) {
-                ProfileScreen()
+                ProfileScreen(viewModel = viewModel)
             }
 
             composable(NavDestinations.ABOUT) {
                 AboutScreen()
+            }
+        }
+    }
+
+    if (navType == NavigationType.PERMANENT_DRAWER) {
+        PermanentNavigationDrawerComp(navController, currentRoute, PrimaryNavItems) {
+            Scaffold { padding -> appContent(padding) }
+        }
+    } else {
+        Scaffold(
+            bottomBar = {
+                if (isCompact) {
+                    BottomNavigationBarComp(navController, currentRoute, PrimaryNavItems)
+                }
+            }
+        ) { padding ->
+            Row(modifier = Modifier.fillMaxSize()) {
+                if (navType == NavigationType.NAVIGATION_RAIL) {
+                    NavigationRailComp(navController, currentRoute, PrimaryNavItems)
+                }
+                Box(modifier = Modifier.weight(1f)) {
+                    appContent(padding)
+                }
             }
         }
     }

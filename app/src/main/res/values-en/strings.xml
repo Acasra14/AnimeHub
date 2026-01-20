@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">AnimeHub</string>
+    <string name="splash_title">AnimeHub</string>
+    <string name="splash_subtitle">Your otaku community</string>
+    <string name="contact_email">Contact the Team</string>
+    <string name="api_documentation">View Jikan API Documentation</string>
+
+    <string name="nav_list">Anime List</string>
+    <string name="nav_favs">Favorites</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_about">About</string>
+    <string name="details_title">Anime Details</string>
+    <string name="back">Back</string>
+
+    <string name="default_content_descrip">Element image</string>
+    <string name="element_image_desc">%1$s image</string>
+    <string name="element_rank">Rank: %1$d</string>
+    <string name="element_score">Score: %1$.2f</string>
+    <string name="element_not_found">Element not found</string>
+
+    <string name="login_button">Log In</string>
+    <string name="logout_button">Log Out</string>
+    <string name="profile_status_logged_in">Welcome, Otaku!</string>
+    <string name="profile_status_logged_out">Please, log in</string>
+
+    <string name="fav_list_empty">You don\'t have any favorite anime yet.</string>
+    <string name="favorite_toggle_desc">Add or remove from favorites</string>
+    <string name="more_content_desc">View details</string>
+
+    <string name="add_to_favs">Add to Favorites</string>
+    <string name="remove_from_favs">Remove from Favorites</string>
+    <string name="delete_desc">Remove from list</string>
+
+    <string name="fav_details_title">Favorite Details: %1$s</string>
+    <string name="user_comments_label">Your Comments</string>
+    <string name="comment_hint">Write your notes or comments here...</string>
+    <string name="save_comment">Save Comment</string>
+
+    <string name="delete_title">Confirm deletion</string>
+    <string name="delete_message">Are you sure you want to remove this anime from your favorites?</string>
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+    <string name="search_hint">Search anime...</string>
+</resources>

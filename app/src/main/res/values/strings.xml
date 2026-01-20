@@ -35,4 +35,10 @@
     <string name="user_comments_label">Tus Comentarios</string>
     <string name="comment_hint">Escribe aquí tus notas o comentarios...</string>
     <string name="save_comment">Guardar Comentario</string>
+
+    <string name="delete_title">Confirmar eliminación</string>
+    <string name="delete_message">¿Estás seguro de que quieres eliminar este anime de tus favoritos?</string>
+    <string name="accept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="search_hint">Buscar anime...</string>
 </resources>
