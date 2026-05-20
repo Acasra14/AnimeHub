@@ -1,6 +1,7 @@
 package com.example.animehub.model
 
 data class AnimeElement(
+    val id: Int,
     val name: String,
     val rank: Int,
     val score: Double,

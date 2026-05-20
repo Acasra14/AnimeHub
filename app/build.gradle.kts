@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt") // <-- Asegúrate de que esta línea esté aquí
 }
 
 android {
@@ -40,7 +41,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -59,6 +59,26 @@ dependencies {
 
     implementation("androidx.compose.material:material-icons-core")
     implementation("androidx.compose.material:material-icons-extended")
+
+    // --- NUEVAS DEPENDENCIAS PARA LA PRÁCTICA MVVM ---
+
+    // 1. DataStore (Guardar preferencias de usuario y tema)
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    // 2. Room (Base de datos local para Favoritos y Comentarios)
+    val roomVersion = "2.6.1"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+
+    // 3. Retrofit y Gson (Llamadas a la API de Jikan)
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // 4. Coil (Carga asíncrona de imágenes desde la URL de la API)
+    implementation("io.coil-kt:coil-compose:2.6.0")
+
+    // -------------------------------------------------
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

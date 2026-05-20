@@ -3,12 +3,14 @@ package com.example.animehub
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.*
+import com.example.animehub.data.ThemePreference
 import com.example.animehub.navigation.*
 import com.example.animehub.ui.screens.*
 import com.example.animehub.ui.theme.AnimeHubTheme
@@ -19,9 +21,22 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AnimeHubTheme {
+            // 1. Instanciamos el ViewModel aquí arriba para poder leer el tema
+            val viewModel: AnimeViewModel = viewModel()
+
+            // 2. Leemos la preferencia guardada en DataStore
+            val themePref by viewModel.themePreference.collectAsState()
+
+            // 3. Calculamos si el tema debe ser oscuro en base a la configuración
+            val isDarkTheme = when (themePref) {
+                ThemePreference.LIGHT -> false
+                ThemePreference.DARK -> true
+                ThemePreference.SYSTEM -> isSystemInDarkTheme()
+            }
+
+            // 4. Aplicamos el color correspondiente al tema de Jetpack Compose
+            AnimeHubTheme(darkTheme = isDarkTheme) {
                 val navType = getNavigationType(this)
-                val viewModel: AnimeViewModel = viewModel()
                 AnimeHubApp(navType, viewModel)
             }
         }
@@ -61,7 +76,12 @@ fun AnimeHubApp(navType: NavigationType, viewModel: AnimeViewModel) {
 
             composable(NavDestinations.FAV_DETAILS) { backStackEntry ->
                 val name = backStackEntry.arguments?.getString(NavDestinations.ELEMENT_NAME_ARG) ?: ""
-                FavDetailsScreen(name = name, navController = navController)
+                // AÑADIDO: Ahora se le pasa el viewModel para cargar los comentarios de Room
+                FavDetailsScreen(
+                    name = name,
+                    navController = navController,
+                    viewModel = viewModel
+                )
             }
 
             composable(NavDestinations.PROFILE) {

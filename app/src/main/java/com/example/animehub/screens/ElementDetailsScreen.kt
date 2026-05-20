@@ -14,12 +14,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.animehub.R
-import com.example.animehub.data.Datasource
 import com.example.animehub.ui.components.ImageComp
 import com.example.animehub.ui.components.StandardButtonComp
 import com.example.animehub.ui.components.StandardTextComp
 import com.example.animehub.ui.theme.CustomAction
 import com.example.animehub.viewmodel.AnimeViewModel
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,7 +31,9 @@ fun ElementDetailsScreen(
     viewModel: AnimeViewModel,
     modifier: Modifier = Modifier
 ) {
-    val element = viewModel.animeList.find { it.name == name }
+    // Escuchamos la lista en tiempo real de la API / Base de datos
+    val animeList by viewModel.animeList.collectAsState()
+    val element = animeList.find { it.name == name }
 
     Scaffold(
         topBar = {
@@ -51,8 +54,12 @@ fun ElementDetailsScreen(
 
         element?.let { anime ->
             if (isCompact) {
-                Column(modifier = contentModifier, horizontalAlignment = Alignment.CenterHorizontally) {
-                    ImageComp(drawable = Datasource.getDrawableIdByName(anime.photo), height = 200, width = 200)
+                // AÑADIDO: .verticalScroll(rememberScrollState()) para permitir deslizar en móvil
+                Column(
+                    modifier = contentModifier.verticalScroll(rememberScrollState()),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    ImageComp(photoUrl = anime.photo, height = 200, width = 200) // Usamos la URL
                     Spacer(modifier = Modifier.height(16.dp))
                     StandardTextComp(text = anime.name, style = MaterialTheme.typography.headlineMedium)
                     StandardTextComp(text = stringResource(R.string.element_rank, anime.rank), style = MaterialTheme.typography.bodyMedium)
@@ -60,14 +67,20 @@ fun ElementDetailsScreen(
                     Spacer(modifier = Modifier.height(24.dp))
 
                     FavoriteButton(anime.isFavorite) {
-                        viewModel.toggleFavorite(anime.name)
+                        viewModel.onFavoriteIconClicked(anime)
                     }
                 }
             } else {
-                // Layout Medio/Expandido (Horizontal)
                 Row(modifier = contentModifier, horizontalArrangement = Arrangement.SpaceBetween) {
-                    ImageComp(drawable = Datasource.getDrawableIdByName(anime.photo), height = 300, width = 300, contentScale = ContentScale.Crop)
-                    Column(modifier = Modifier.weight(1f).padding(start = 24.dp)) {
+                    ImageComp(photoUrl = anime.photo, height = 300, width = 300, contentScale = ContentScale.Crop)
+
+                    // AÑADIDO: .verticalScroll(rememberScrollState()) para permitir deslizar en tablet
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(start = 24.dp)
+                            .verticalScroll(rememberScrollState())
+                    ) {
                         StandardTextComp(text = anime.name, style = MaterialTheme.typography.headlineLarge)
                         Spacer(modifier = Modifier.height(8.dp))
                         StandardTextComp(text = stringResource(R.string.element_rank, anime.rank), style = MaterialTheme.typography.bodyMedium)
@@ -75,7 +88,7 @@ fun ElementDetailsScreen(
                         Spacer(modifier = Modifier.height(24.dp))
 
                         FavoriteButton(anime.isFavorite) {
-                            viewModel.toggleFavorite(anime.name)
+                            viewModel.onFavoriteIconClicked(anime)
                         }
                         Spacer(modifier = Modifier.height(8.dp))
                         StandardButtonComp(label = stringResource(R.string.back), onClick = { navController.navigateUp() })

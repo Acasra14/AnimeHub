@@ -13,27 +13,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.animehub.R
-import com.example.animehub.data.Datasource
 import com.example.animehub.model.AnimeElement
 import com.example.animehub.ui.theme.CustomAction
 
 @Composable
-fun ElemCardCompact(
-    element: AnimeElement,
-    onDetailsClick: () -> Unit,
-    onFavClick: () -> Unit
-) {
+fun ElemCardCompact(element: AnimeElement, onDetailsClick: () -> Unit, onFavClick: () -> Unit) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp, horizontal = 8.dp)
-            .clickable { onDetailsClick() }
+        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp, horizontal = 8.dp).clickable { onDetailsClick() },
+        shape = MaterialTheme.shapes.medium
     ) {
-        Row(
-            modifier = Modifier.padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            ImageComp(drawable = Datasource.getDrawableIdByName(element.photo), height = 80, width = 80)
+        Row(modifier = Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+            ImageComp(photoUrl = element.photo, height = 80, width = 80)
             Column(modifier = Modifier.weight(1f).padding(horizontal = 16.dp)) {
                 StandardTextComp(text = element.name, style = MaterialTheme.typography.titleMedium)
                 StandardTextComp(text = stringResource(R.string.element_rank, element.rank))
@@ -41,7 +31,7 @@ fun ElemCardCompact(
             IconButton(onClick = onFavClick) {
                 Icon(
                     imageVector = if (element.isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
-                    contentDescription = stringResource(R.string.favorite_toggle_desc),
+                    contentDescription = "Favorito",
                     tint = if (element.isFavorite) CustomAction else MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
@@ -50,35 +40,23 @@ fun ElemCardCompact(
 }
 
 @Composable
-fun ElemCardMedExp(
-    element: AnimeElement,
-    onDetailsClick: () -> Unit,
-    onFavClick: () -> Unit
-) {
+fun ElemCardMedExp(element: AnimeElement, onDetailsClick: () -> Unit, onFavClick: () -> Unit) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 16.dp)
-            .clickable { onDetailsClick() },
-        shape = MaterialTheme.shapes.large
+        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp, horizontal = 16.dp).clickable { onDetailsClick() },
+        shape = MaterialTheme.shapes.large,
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
-        Row(
-            modifier = Modifier.padding(20.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(32.dp)
-        ) {
-            ImageComp(drawable = Datasource.getDrawableIdByName(element.photo), height = 120, width = 120)
-
-            Column(modifier = Modifier.weight(1f)) {
+        Row(modifier = Modifier.padding(20.dp), verticalAlignment = Alignment.CenterVertically) {
+            ImageComp(photoUrl = element.photo, height = 120, width = 120)
+            Column(modifier = Modifier.weight(1f).padding(horizontal = 24.dp)) {
                 StandardTextComp(text = element.name, style = MaterialTheme.typography.headlineSmall)
                 StandardTextComp(text = stringResource(R.string.element_rank, element.rank))
                 StandardTextComp(text = element.description, style = MaterialTheme.typography.bodyMedium)
             }
-
-            IconButton(onClick = onFavClick, modifier = Modifier.size(56.dp)) {
+            IconButton(onClick = onFavClick) {
                 Icon(
                     imageVector = if (element.isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
-                    contentDescription = stringResource(R.string.favorite_toggle_desc),
+                    contentDescription = "Favorito",
                     tint = if (element.isFavorite) CustomAction else MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
@@ -87,63 +65,36 @@ fun ElemCardMedExp(
 }
 
 @Composable
-fun FavCardCompact(
-    element: AnimeElement,
-    onRemoveClick: () -> Unit,
-    onDetailsClick: () -> Unit
-) {
+fun FavCardCompact(element: AnimeElement, onRemoveClick: () -> Unit, onDetailsClick: () -> Unit) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp, horizontal = 8.dp)
-            .clickable { onDetailsClick() }
+        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp, horizontal = 8.dp).clickable { onDetailsClick() },
+        shape = MaterialTheme.shapes.medium
     ) {
-        Row(
-            modifier = Modifier.padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            ImageComp(drawable = Datasource.getDrawableIdByName(element.photo), height = 80, width = 80)
+        Row(modifier = Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+            ImageComp(photoUrl = element.photo, height = 80, width = 80)
             Column(modifier = Modifier.weight(1f).padding(horizontal = 16.dp)) {
                 StandardTextComp(text = element.name, style = MaterialTheme.typography.titleMedium)
             }
             IconButton(onClick = onRemoveClick) {
-                Icon(Icons.Filled.Clear, contentDescription = null, tint = MaterialTheme.colorScheme.error)
+                Icon(Icons.Filled.Clear, contentDescription = "Borrar", tint = MaterialTheme.colorScheme.error)
             }
         }
     }
 }
 
 @Composable
-fun FavCardMedExp(
-    element: AnimeElement,
-    onRemoveClick: () -> Unit,
-    onDetailsClick: () -> Unit
-) {
+fun FavCardMedExp(element: AnimeElement, onRemoveClick: () -> Unit, onDetailsClick: () -> Unit) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 16.dp)
-            .clickable { onDetailsClick() },
+        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp, horizontal = 16.dp).clickable { onDetailsClick() },
         shape = MaterialTheme.shapes.large
     ) {
-        Row(
-            modifier = Modifier.padding(20.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(32.dp)
-        ) {
-            ImageComp(drawable = Datasource.getDrawableIdByName(element.photo), height = 120, width = 120)
-
-            Column(modifier = Modifier.weight(1f)) {
+        Row(modifier = Modifier.padding(20.dp), verticalAlignment = Alignment.CenterVertically) {
+            ImageComp(photoUrl = element.photo, height = 120, width = 120)
+            Column(modifier = Modifier.weight(1f).padding(horizontal = 24.dp)) {
                 StandardTextComp(text = element.name, style = MaterialTheme.typography.headlineSmall)
-                StandardTextComp(text = element.description, style = MaterialTheme.typography.bodyMedium)
             }
-
-            IconButton(onClick = onRemoveClick, modifier = Modifier.size(56.dp)) {
-                Icon(
-                    imageVector = Icons.Filled.Clear,
-                    contentDescription = stringResource(R.string.delete_desc),
-                    tint = MaterialTheme.colorScheme.error
-                )
+            IconButton(onClick = onRemoveClick) {
+                Icon(Icons.Filled.Clear, contentDescription = "Borrar", tint = MaterialTheme.colorScheme.error)
             }
         }
     }
